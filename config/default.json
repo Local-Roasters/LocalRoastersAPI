@@ -1,0 +1,7 @@
+{
+    "mongoURI": "mongodb+srv://hackny:Winner@localroasters-1mhoa.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "My_SECRET_KEY",
+    "OWM": "77f283adb61848cbf6c0901e85c49e58",
+    "DARK": "8f5f8c216e72042abc1ee249745ed98c"
+  }
+  
