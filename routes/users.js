@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
         coffee,
         price
       });
-      console.log(user);
+      console.log(user`);
       //Save it in the db
       await user.save();
     }
