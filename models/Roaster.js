@@ -6,8 +6,8 @@ const roasterSchema = mongoose.Schema({
     required: true
   },
   location: {
-    zipcode: Number,
-    address: String
+    latitude: Number,
+    longitude: Number
   },
   coffee: {
     type: String,
