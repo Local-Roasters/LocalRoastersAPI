@@ -5,10 +5,6 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  location: {
-    type: String,
-    required: true
-  },
   coffee: {
     type: Number,
     required: true
