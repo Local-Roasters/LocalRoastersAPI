@@ -1,7 +1,7 @@
 {
-  "name": "localroastershack",
+  "name": "localroasters",
   "version": "1.0.0",
-  "description": "Local Roasters Caffinates Your Coffee Drinking ",
+  "description": "Local Roasters Caffeinates Your Coffee Drinking ",
   "main": "index.js",
   "scripts": {
     "test": "",
@@ -10,20 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hacknyctp/LocalRoastersHack.git"
+    "url": "git+https://github.com/Local-Roasters/LocalRoastersAPI.git"
   },
   "keywords": [
-    "coffee",
-    "hackathon"
+    "coffee"
   ],
-  "author": "Mark Goldstein Sparky Evangelista Eric Sei",
+  "author": "Mark Goldstein",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hacknyctp/LocalRoastersHack/issues"
+    "url": "https://github.com/Local-Roasters/LocalRoastersAPI"
   },
-  "homepage": "https://github.com/hacknyctp/LocalRoastersHack#readme",
+  "homepage": "https://github.com/Local-Roasters/LocalRoastersAPI",
   "dependencies": {
-    "bcrypt": "^3.0.6",
     "config": "^3.2.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",

@@ -7,7 +7,14 @@ const auth = require("../middleware/requireAuth");
 const router = express.Router();
 const User = require("../models/User");
 
-//Register a user by phone id
+/**
+ * - Register a user by phone id METHOD: POST
+ * - Expects to find a phoneID, ,
+ * @params {phoneID} - The user's phone id
+ * @params {coffee} - coffee rated (from 1 to 3)
+ * @params {price} - price(from 1 to 3) in body as json
+ * @returns {JSON} user - Json representation of the found user
+ */
 router.post("/", async (req, res) => {
   try {
     const { phoneID, coffee, price } = req.body;
@@ -33,15 +40,16 @@ router.post("/", async (req, res) => {
   }
 });
 
-//Get a user
+/**
+ * Get a registered user from the database METHOD: GET
+ * @params {Number} phoneID - the user's phone ID
+ * @returns {JSON} user - Json representation of the found user
+ */
 router.get("/", async (req, res) => {
   try {
-    const id = req.id;
     const { phoneID } = req.body;
-    console.log(phoneID);
     const user = await User.findOne({ phoneID: phoneID }); // Return all but the PW
-    // if the user exists, return their json
-    console.log(user);
+    // if the user exists, return them, verifying the user exists
     if (user) {
       res.json(user);
     } else {
@@ -53,10 +61,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-//Add a unregistered user to the db
+/**
+ * Update a registered user from the database METHOD: PUT
+ * @params {Number} phoneID - the user's phone ID
+ * @params {coffee} - coffee rated (from 1 to 3)
+ * @params {price} - price(from 1 to 3) in body as json
+ * @returns {JSON} user - Json representation of the found user
+ */
 router.put("/", async (req, res) => {
   try {
-    const { coffee, price } = req.body;
+    const { phoneID, coffee, price } = req.body;
     const update = { coffee, price };
     console.log(`User before update${user}`);
     let user = await User.findOneAndUpdate({ phoneID: phoneID }, update, {
