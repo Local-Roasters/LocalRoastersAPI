@@ -38,8 +38,10 @@ router.get("/", async (req, res) => {
   try {
     const id = req.id;
     const { phoneID } = req.body;
-    const user = await User.findOne(phoneID); // Return all but the PW
+    console.log(phoneID);
+    const user = await User.findOne({ phoneID: phoneID }); // Return all but the PW
     // if the user exists, return their json
+    console.log(user);
     if (user) {
       res.json(user);
     } else {
