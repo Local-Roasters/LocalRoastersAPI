@@ -33,6 +33,6 @@ router.get("/", (req, res) => {
       console.error(err.message);
       res.status(500).send("Server Error");
     });
-}); //Note that "/" here refers to the prefix of "api/users" + "/"
+}); //Note that "/" here refers to the prefix of "api/roasters"
 
 module.exports = router;
