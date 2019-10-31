@@ -1,9 +1,8 @@
 const express = require("express");
 // const { check, validationResult } = require("express-validator");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
 const config = require("config");
-const auth = require("../middleware/requireAuth");
 const router = express.Router();
 const User = require("../models/User");
 
@@ -18,7 +17,13 @@ const User = require("../models/User");
 router.post("/", async (req, res) => {
   try {
     const { phoneID, coffee, price } = req.body;
+
+    if (!phoneID || !coffee || !price) {
+      res.status(402).json({ msg: "Body missing phoneID, coffee, and price" });
+    }
+
     let user = await User.findOne({ phoneID });
+
     if (user) {
       res.status(401).send("PhoneID already Registered");
     } else {
@@ -48,6 +53,9 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const { phoneID } = req.body;
+    if (!phoneID) {
+      res.status(404).json({ error: "No phoneID provided" });
+    }
     const user = await User.findOne({ phoneID: phoneID }); // Return all but the PW
     // if the user exists, return them, verifying the user exists
     if (user) {
