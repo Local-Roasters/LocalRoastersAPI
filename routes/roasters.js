@@ -3,6 +3,7 @@ const config = require("config");
 // const auth = require("../middleware/requireAuth");
 const fetch = require("node-fetch");
 const router = express.Router();
+const Roaster = require("../models/Roaster");
 
 //Grab env vars
 // const API_KEY = process.env.OWM || config.get("DARK");
@@ -34,5 +35,37 @@ router.get("/", (req, res) => {
       res.status(500).send("Server Error");
     });
 }); //Note that "/" here refers to the prefix of "api/roasters"
+
+router.post("/", async (req, res) => {
+  const { name, location, coffee, price, rating, extraCost, img } = req.body;
+  let roaster = await Roaster.findOne(
+    { "location.streetName": location.streetName },
+    { "location.addressNumber": location.number }
+  );
+  if (roaster) {
+    res.status(400).json({ msg: "This roaster already exists" });
+  }
+  if (!name || !location || !coffee || !price) {
+    res.status(400).json({
+      msg:
+        "Please ensure you provided a name, location, coffee and price information."
+    });
+  }
+
+  // if (!img) img = "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6";
+
+  roaster = new Roaster({
+    name,
+    location,
+    coffee,
+    price,
+    rating,
+    extraCost,
+    img
+  });
+  console.log(roaster);
+  await roaster.save();
+  res.status(200).json({ msg: `Added new roaster!` });
+});
 
 module.exports = router;

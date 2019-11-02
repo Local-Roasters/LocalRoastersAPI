@@ -6,12 +6,16 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   coffee: {
-    type: Number,
-    required: true
+    roast: String
   },
   price: {
     type: Number,
     required: true
+  },
+  drink: {
+    size: String,
+    hot: Boolean,
+    nonDairy: Boolean
   }
 });
 

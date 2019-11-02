@@ -7,21 +7,28 @@ const roasterSchema = mongoose.Schema({
   },
   location: {
     latitude: Number,
-    longitude: Number
+    longitude: Number,
+    streetName: String,
+    number: Number
   },
   coffee: {
-    type: String,
-    required: true
+    roast: String,
+    roaster: String
   },
   price: {
     type: Number,
     required: true
   },
   img: {
-    type: String
+    type: String,
+    default: "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6"
   },
-  beans: {
+  rating: {
     type: Number
+  },
+  extraCost: {
+    nonDairy: Boolean,
+    default: false
   }
 });
 
