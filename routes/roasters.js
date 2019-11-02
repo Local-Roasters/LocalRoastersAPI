@@ -8,9 +8,10 @@ const Roaster = require("../models/Roaster");
 //Grab env vars
 // const API_KEY = process.env.OWM || config.get("DARK");
 //Get roasters via location
-router.get("/", (req, res) => {
+router.get("/yelp", (req, res) => {
   console.log(req.query);
-  const { latitude, longitude } = req.query; //De-structure the request's data//
+  const { latitude, longitude } = req.query;
+  //De-structure the request's data
   if (!latitude || !longitude) {
     return res.status(400).json({
       msg: "Did not send proper latitude and longitude in request queries."
@@ -37,35 +38,59 @@ router.get("/", (req, res) => {
 }); //Note that "/" here refers to the prefix of "api/roasters"
 
 router.post("/", async (req, res) => {
-  const { name, location, coffee, price, rating, extraCost, img } = req.body;
-  let roaster = await Roaster.findOne(
-    { "location.streetName": location.streetName },
-    { "location.addressNumber": location.number }
-  );
-  if (roaster) {
-    res.status(400).json({ msg: "This roaster already exists" });
-  }
-  if (!name || !location || !coffee || !price) {
-    res.status(400).json({
-      msg:
-        "Please ensure you provided a name, location, coffee and price information."
+  try {
+    const { name, location, coffee, price, rating, extraCost, img } = req.body;
+
+    let roaster = await Roaster.findOne(
+      { "location.streetName": location.streetName },
+      { "location.addressNumber": location.number }
+    );
+    if (roaster) {
+      res.status(400).json({ msg: "This roaster already exists" });
+    }
+    if (!name || !location || !coffee || !price) {
+      res.status(400).json({
+        msg:
+          "Please ensure you provided a name, location, coffee and price information."
+      });
+
+      //Not working
+      if (!location.zip || !location.streetName || !location.number) {
+        res.status(400).json({
+          msg:
+            "Please ensure you provided location with address, number, and zip code"
+        });
+      }
+    }
+
+    roaster = new Roaster({
+      name,
+      location,
+      coffee,
+      price,
+      rating,
+      extraCost,
+      img
     });
+    console.log(roaster);
+    console.log(location);
+    await roaster.save();
+    res.status(200).json({ msg: `Added new roaster ${name}}!` });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
-
-  // if (!img) img = "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6";
-
-  roaster = new Roaster({
-    name,
-    location,
-    coffee,
-    price,
-    rating,
-    extraCost,
-    img
-  });
-  console.log(roaster);
-  await roaster.save();
-  res.status(200).json({ msg: `Added new roaster!` });
 });
 
+router.get("/", async (req, res) => {
+  try {
+    let { zip, price, roast } = req.query;
+    let roasterArr = await Roaster.find({ "location.zip": zip });
+    console.log(roasterArr);
+    res.send(roasterArr);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;
