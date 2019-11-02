@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
       });
 
       //Not working
-      if (!location.zip || !location.streetName || !location.number) {
+      if (!location["zip"] || !location.streetName || !location.number) {
         res.status(400).json({
           msg:
             "Please ensure you provided location with address, number, and zip code"
@@ -75,7 +75,7 @@ router.post("/", async (req, res) => {
     console.log(roaster);
     console.log(location);
     await roaster.save();
-    res.status(200).json({ msg: `Added new roaster ${name}}!` });
+    res.status(200).json({ msg: `Added new roaster ${name}!` });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
