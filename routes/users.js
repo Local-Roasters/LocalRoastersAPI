@@ -76,7 +76,7 @@ router.get("/", async (req, res) => {
 router.put("/", async (req, res) => {
   try {
     const { phoneID, coffee, price } = req.body;
-    const update = { coffee: { roast: coffee }, price };
+    const update = { coffee, price };
     console.log(update);
     let user = await User.findOneAndUpdate({ phoneID: phoneID }, update, {
       new: true
