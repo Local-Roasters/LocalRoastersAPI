@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
     const { phoneID, coffee, price } = req.body;
 
     if (!phoneID || !coffee || !price) {
-      res.status(402).json({ msg: "Body missing phoneID, coffee, and price" });
+      res.status(400).json({ msg: "Body missing phoneID, coffee, and price" });
     }
 
     let user = await User.findOne({ phoneID });
