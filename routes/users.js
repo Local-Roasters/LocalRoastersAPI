@@ -80,7 +80,8 @@ router.put("/", async (req, res) => {
   try {
     const { phoneID, coffee, price } = req.body;
     const update = { coffee, price };
-    console.log(`User before update${user}.`);
+    console.log(phoneID);
+    // console.log(`User before update${user}.`);
     let user = await User.findOneAndUpdate({ phoneID: phoneID }, update, {
       new: true
     }); // Return all but the PW
