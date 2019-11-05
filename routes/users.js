@@ -1,7 +1,4 @@
 const express = require("express");
-// const { check, validationResult } = require("express-validator");
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
 const config = require("config");
 const router = express.Router();
 const User = require("../models/User");
@@ -56,7 +53,7 @@ router.get("/", async (req, res) => {
     if (!phoneID) {
       res.status(404).json({ error: "No phoneID provided" });
     }
-    const user = await User.findOne({ phoneID: phoneID }); // Return all but the PW
+    const user = await User.findOne({ phoneID: phoneID });
     // if the user exists, return them, verifying the user exists
     if (user) {
       res.json(user);
@@ -79,12 +76,11 @@ router.get("/", async (req, res) => {
 router.put("/", async (req, res) => {
   try {
     const { phoneID, coffee, price } = req.body;
-    const update = { coffee, price };
-    console.log(phoneID);
-    // console.log(`User before update${user}.`);
+    const update = { coffee: { roast: coffee }, price };
+    console.log(update);
     let user = await User.findOneAndUpdate({ phoneID: phoneID }, update, {
       new: true
-    }); // Return all but the PW
+    });
     // if the user exists, return their json
     console.log(`User after update${user}.`);
     await user.save();
