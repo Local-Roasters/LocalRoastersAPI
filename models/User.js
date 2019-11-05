@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
   },
   coffee: {
     type: String,
-    required: true,
     roast: String
   },
   price: {
