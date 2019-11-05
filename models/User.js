@@ -6,8 +6,11 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   coffee: {
-    type: String,
-    roast: String
+    type: Object,
+    roast: {
+      type: String
+    },
+    required: true
   },
   price: {
     type: Number,
