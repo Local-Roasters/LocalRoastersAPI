@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
  */
 router.get("/", async (req, res) => {
   try {
-    const { phoneID } = req.body;
+    const { phoneID } = req.query;
     if (!phoneID) {
       res.status(404).json({ error: "No phoneID provided" });
     }
