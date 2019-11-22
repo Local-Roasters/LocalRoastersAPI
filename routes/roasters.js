@@ -2,6 +2,7 @@ const express = require("express");
 const config = require("config");
 // const auth = require("../middleware/requireAuth");
 const fetch = require("node-fetch");
+const reverse = require("reverse-geocode");
 const router = express.Router();
 const Roaster = require("../models/Roaster");
 
@@ -84,7 +85,8 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let { zip, price, roast } = req.query;
+    let { latitude, longitude, price, roast } = req.query;
+    let zip = reverse.lookup(latitude, longitude, "us");
     let roasterArr = await Roaster.find({ "location.zip": zip });
     console.log(roasterArr);
     res.send(roasterArr);
