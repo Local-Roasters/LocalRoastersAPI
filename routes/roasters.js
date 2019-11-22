@@ -4,6 +4,8 @@ const config = require("config");
 const fetch = require("node-fetch");
 const reverse = require("reverse-geocode");
 const router = express.Router();
+const NodeGeocoder = require("node-geocoder");
+
 const Roaster = require("../models/Roaster");
 
 //Grab env vars
@@ -41,6 +43,8 @@ router.get("/yelp", (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { name, location, coffee, price, rating, extraCost, img } = req.body;
+    //
+    // Get latidude & longitude from address.
 
     let roaster = await Roaster.findOne(
       { "location.streetName": location.streetName },
@@ -63,6 +67,31 @@ router.post("/", async (req, res) => {
         });
       }
     }
+    const options = {
+      provider: "google",
+
+      // Optional depending on the providers
+      httpAdapter: "https", // Default
+      apiKey: "AIzaSyB9-VXAvk9-6OuPgidWNUIXLwMMn1JH1pY", // for Mapquest, OpenCage, Google Premier
+      formatter: null // 'gpx', 'string', ...
+    };
+
+    let geocoder = NodeGeocoder(options);
+    let resArr = await geocoder
+      .geocode(`${location.number} ${location.streetName}  New York`)
+      .then(function(res) {
+        return res;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    // async let  resArr = geocoder.geocode(
+    //   `${location.number} ${location.streetName}  New York`
+    // );
+    await console.log(resArr);
+    let { latitude, longitude } = await resArr[0];
+    location.latitude = latitude;
+    location.longitude = longitude;
 
     roaster = new Roaster({
       name,
