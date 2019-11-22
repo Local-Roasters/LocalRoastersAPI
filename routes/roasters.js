@@ -85,9 +85,9 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let { latitude, longitude, price, roast } = req.query;
-    let zip = reverse.lookup(latitude, longitude, "us");
-    let roasterArr = await Roaster.find({ "location.zip": zip });
+    let { latitude, longitude } = req.query;
+    let { zipcode } = reverse.lookup(latitude, longitude, "us");
+    let roasterArr = await Roaster.find({ "location.zip": zipcode });
     console.log(roasterArr);
     res.send(roasterArr);
   } catch (error) {
