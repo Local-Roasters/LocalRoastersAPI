@@ -72,7 +72,7 @@ router.post("/", async (req, res) => {
 
       // Optional depending on the providers
       httpAdapter: "https", // Default
-      apiKey: "AIzaSyB9-VXAvk9-6OuPgidWNUIXLwMMn1JH1pY", // for Mapquest, OpenCage, Google Premier
+      apiKey: "123", // for Mapquest, OpenCage, Google Premier
       formatter: null // 'gpx', 'string', ...
     };
 
