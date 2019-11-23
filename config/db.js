@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 const db = process.env.DB;
-
+console.log(db);
 // Mongoose returns promises, let's use async await and try-catch
 const connectDB = async () => {
   try {
