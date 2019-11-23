@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const connectDB = require("./config/db");
+require("dotenv").config();
 connectDB(); //Call and connect to the db
 
 //Allow control origin, then call next middleware

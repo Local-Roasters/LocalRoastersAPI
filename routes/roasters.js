@@ -24,8 +24,7 @@ router.get("/yelp", (req, res) => {
     `https://api.yelp.com/v3/businesses/search?term=coffee&latitude=${latitude}&longitude=${longitude}&radius=500&limit=50`,
     {
       headers: {
-        Authorization:
-          "Bearer BveseQkXptmTE1Vl-l4xSvzVq_rl-18nCPM4o65H7KrbQe2ZlFnsUr8Y19P2tW6hdflNwdbuEonUT2Wm1fLRW83SH_c3a4lyR3O5_I4fMjJiJdTkZL34h51KncycXXYx"
+        Authorization: `Bearer ${process.env.BEARER}`
       }
     }
   )
@@ -72,7 +71,7 @@ router.post("/", async (req, res) => {
 
       // Optional depending on the providers
       httpAdapter: "https", // Default
-      apiKey: "123", // for Mapquest, OpenCage, Google Premier
+      apiKey: `${process.env.GOOGLE_GEO}`, // for Mapquest, OpenCage, Google Premier
       formatter: null // 'gpx', 'string', ...
     };
 

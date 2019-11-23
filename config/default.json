@@ -2,5 +2,6 @@
   "mongoURI": "mongodb+srv://hackny:Winner@localroasters-1mhoa.mongodb.net/roastAPI?retryWrites=true&w=majority",
   "jwtSecret": "My_SECRET_KEY",
   "OWM": "77f283adb61848cbf6c0901e85c49e58",
-  "DARK": "8f5f8c216e72042abc1ee249745ed98c"
+  "DARK": "8f5f8c216e72042abc1ee249745ed98c",
+  "BEARER": "BveseQkXptmTE1Vl-l4xSvzVq_rl-18nCPM4o65H7KrbQe2ZlFnsUr8Y19P2tW6hdflNwdbuEonUT2Wm1fLRW83SH_c3a4lyR3O5_I4fMjJiJdTkZL34h51KncycXXYx"
 }

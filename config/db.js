@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const config = require("config");
-const db = process.env.DB || config.get("mongoURI");
+const db = process.env.DB;
 
 // Mongoose returns promises, let's use async await and try-catch
 const connectDB = async () => {
