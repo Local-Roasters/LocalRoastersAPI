@@ -3,6 +3,24 @@ const reverse = require("reverse-geocode");
 const NodeGeocoder = require("node-geocoder");
 const Roaster = require("../models/Roaster");
 const router = express.Router();
+
+/**
+ * Endpoint .../roasters returns an array of roasters given location
+ * Method: GET
+ */
+router.get("/", async (req, res) => {
+  try {
+    let { latitude, longitude } = req.query;
+    let { zipcode } = reverse.lookup(latitude, longitude, "us");
+    let roasterArr = await Roaster.find({ "location.zip": zipcode });
+    console.log(roasterArr);
+    res.send(roasterArr);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 /**
  * Endpoint .../roasters/ takes a body of JSON data to create a new roaster
  * Method: POST
@@ -86,20 +104,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-/**
- * Endpoint .../roasters returns an array of roasters given location
- * Method: GET
- */
-router.get("/", async (req, res) => {
-  try {
-    let { latitude, longitude } = req.query;
-    let { zipcode } = reverse.lookup(latitude, longitude, "us");
-    let roasterArr = await Roaster.find({ "location.zip": zipcode });
-    console.log(roasterArr);
-    res.send(roasterArr);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
-  }
-});
 module.exports = router;
