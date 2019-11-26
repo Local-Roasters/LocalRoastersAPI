@@ -1,50 +1,54 @@
 const express = require("express");
-const config = require("config");
-// const auth = require("../middleware/requireAuth");
-const fetch = require("node-fetch");
 const reverse = require("reverse-geocode");
-const router = express.Router();
 const NodeGeocoder = require("node-geocoder");
-
 const Roaster = require("../models/Roaster");
-
-//Create a new roaster!
+const router = express.Router();
+/**
+ * Endpoint .../roasters/ takes a body of JSON data to create a new roaster
+ * Method: POST
+ */
 router.post("/", async (req, res) => {
   try {
     const { name, location, coffee, price, rating, extraCost, img } = req.body;
 
-    //Sanitize location street name
+    //Sanitize location street name and number to avoid duplicates
     location.streetName = location.streetName.toLowerCase();
+
+    //See if we can find a roaster that has the same address, it already exists
     let roaster = await Roaster.findOne({
       $and: [
         { "location.streetName": location.streetName },
         { "location.number": location.number }
       ]
     });
-    console.log(roaster);
+
+    //It exits, so return a message indicating that it already exits
     if (roaster) {
       res.status(400).json({ msg: "This roaster already exists" });
+
+      //If the roaster doesn't exist, but we are missing the required data, send a message responding
     } else if (!name || !location || !coffee || !price) {
       res.status(400).json({
         msg:
           "Please ensure you provided a name, location, coffee and price information."
       });
 
-      //Not working
+      //Checks to ensure we have nested object data that we need
       if (!location["zip"] || !location.streetName || !location.number) {
         res.status(400).json({
           msg:
             "Please ensure you provided location with address, number, and zip code"
         });
       }
+
+      //Otherwise we have a valid new roaster. We need to:
+      //Get the lat and long of the given address via google geo locator
     } else {
       const options = {
         provider: "google",
-
-        // Optional depending on the providers
-        httpAdapter: "https", // Default
-        apiKey: `${process.env.GOOGLE_GEO}`, // for Mapquest, OpenCage, Google Premier
-        formatter: null // 'gpx', 'string', ...
+        httpAdapter: "https",
+        apiKey: `${process.env.GOOGLE_GEO}`,
+        formatter: null
       };
 
       let geocoder = NodeGeocoder(options);
@@ -56,14 +60,14 @@ router.post("/", async (req, res) => {
         .catch(function(err) {
           console.log(err);
         });
-      // async let  resArr = geocoder.geocode(
-      //   `${location.number} ${location.streetName}  New York`
-      // );
-      await console.log(resArr);
+
+      //We automatically choose the first result on google
       let { latitude, longitude } = await resArr[0];
+      //Set the new record's lat and longitude
       location.latitude = latitude;
       location.longitude = longitude;
 
+      // Create and save the new Roaster in the DB
       roaster = new Roaster({
         name,
         location,
@@ -73,8 +77,6 @@ router.post("/", async (req, res) => {
         extraCost,
         img
       });
-      console.log(roaster);
-      console.log(location);
       await roaster.save();
       res.status(200).json({ msg: `Added new roaster ${name}!` });
     }
@@ -84,6 +86,10 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * Endpoint .../roasters returns an array of roasters given location
+ * Method: GET
+ */
 router.get("/", async (req, res) => {
   try {
     let { latitude, longitude } = req.query;
