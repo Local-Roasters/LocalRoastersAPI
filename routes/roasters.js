@@ -3,9 +3,50 @@ const reverse = require("reverse-geocode");
 const NodeGeocoder = require("node-geocoder");
 const Roaster = require("../models/Roaster");
 const router = express.Router();
+/**
+ * @todo Add filter by price
+ */
 
 /**
- * Endpoint .../roasters returns an array of roasters given location
+ * Endpoint .../roasters/by-price returns an array of
+ * roasters given location by ascending price
+ * Method: GET
+ */
+router.get("/by-price/low-to-high", async (req, res) => {
+  try {
+    let { latitude, longitude } = req.query;
+    let { zipcode } = reverse.lookup(latitude, longitude, "us");
+    let roasterArr = await Roaster.find({ "location.zip": zipcode });
+    roasterArr.sort((a, b) => a.price - b.price);
+    console.log(roasterArr);
+    res.send(roasterArr);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * Endpoint .../roasters/by-price returns an array of
+ * roasters given location by specific price
+ * Method: GET
+ */
+router.get("/by-price/", async (req, res) => {
+  try {
+    let { latitude, longitude, price } = req.query;
+    let { zipcode } = reverse.lookup(latitude, longitude, "us");
+    let roasterArr = await Roaster.find({ "location.zip": zipcode });
+    roasterArr = roasterArr.filter(a => a.price == price);
+    console.log(roasterArr);
+    res.send(roasterArr);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * Endpoint .../roasters/price returns an array of roasters given location
  * Method: GET
  */
 router.get("/", async (req, res) => {

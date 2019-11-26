@@ -6,9 +6,9 @@ const User = require("../models/User");
  * - Register a user by phone id
  * METHOD: POST
  * - Expects to find a phoneID, ,
- * @params {phoneID} - The user's phone id
- * @params {coffee} - coffee rated (from 1 to 3)
- * @params {price} - price(from 1 to 3) in body as json
+ * @param {phoneID} - The user's phone id
+ * @param {coffee} - coffee rated (from 1 to 3)
+ * @param {price} - price(from 1 to 3) in body as json
  * @returns {JSON} user - Json representation of the found user
  */
 router.post("/", async (req, res) => {
@@ -45,9 +45,10 @@ router.post("/", async (req, res) => {
 /**
  * Get a registered user from the database
  * METHOD: GET
- * @params {Number} phoneID - the user's phone ID
+ * @param {Number} phoneID - the user's phone ID
  * @returns {JSON} user - Json representation of the found user
  */
+
 router.get("/", async (req, res) => {
   try {
     const { phoneID } = req.query;
@@ -71,9 +72,9 @@ router.get("/", async (req, res) => {
  * Update a registered user from the database
  * METHOD: PUT
  * PARAMS:JSON Body
- * @params {Number} phoneID - the user's phone ID
- * @params {coffee} - coffee rated (from 1 to 3)
- * @params {price} - price(from 1 to 3) in body as json
+ * @param {Number} phoneID - the user's phone ID
+ * @param {coffee} - coffee rated (from 1 to 3)
+ * @param {price} - price(from 1 to 3) in body as json
  * @returns {JSON} user - Json representation of the found user
  */
 router.put("/", async (req, res) => {
