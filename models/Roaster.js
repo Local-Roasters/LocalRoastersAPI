@@ -15,7 +15,8 @@ const roasterSchema = mongoose.Schema({
   coffee: {
     roast: String,
     roaster: String,
-    sustainable: Boolean
+    sustainable: Boolean,
+    default: false
   },
   price: {
     type: Number,
