@@ -31,7 +31,7 @@ const roasterSchema = mongoose.Schema({
     default: 0
   },
   extraCost: {
-    nonDairy: Boolean,
+    type: Boolean,
     default: false
   }
 });
