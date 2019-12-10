@@ -26,7 +26,7 @@ const roasterSchema = mongoose.Schema({
   },
   img: {
     type: String,
-    default: "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6"
+    default: "https://i.imgur.com/qyLAVyH.png"
   },
   rating: {
     type: Number,
