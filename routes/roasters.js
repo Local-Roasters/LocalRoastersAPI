@@ -68,7 +68,7 @@ router.get("/", async (req, res) => {
  */
 router.post("/", async (req, res) => {
   try {
-    const { name, location, coffee, price, rating, extraCost, img } = req.body;
+    const { name, location, coffee, price, rating, extraCost, img, sustainable } = req.body;
 
     //Sanitize location street name and number to avoid duplicates
     location.streetName = location.streetName.toLowerCase();
@@ -134,6 +134,7 @@ router.post("/", async (req, res) => {
         price,
         rating,
         extraCost,
+        sustainable,
         img
       });
       await roaster.save();
